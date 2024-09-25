@@ -1,61 +1,37 @@
 version: '3.8'
 
 services:
-  ecommerce-mysql:
+  # MySQL Database Service
+  demo-cart-mysql:
     image: mysql:8.0
-    container_name: ecommerce-mysql-container
+    container_name: demo-cart-mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: yourpassword
-      MYSQL_DATABASE: ecommerce
+      MYSQL_DATABASE: demo-cart
       MYSQL_USER: user
       MYSQL_PASSWORD: userpassword
     ports:
-      - "3320:3306"  # Custom port mapping for MySQL
+      - "8061:3306"  # Mapping MySQL container port 3306 to host port 3320
     volumes:
-      - ecommerce_mysql_data:/var/lib/mysql
+      - demo-cart-mysql_data:/var/lib/mysql
     networks:
-      - ecommerce-network
+      - demo-cart
 
-  ecommerce-phpmyadmin:
+  # phpMyAdmin Service for MySQL Management
+  demo-cart-phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: ecommerce-phpmyadmin-container
     environment:
-      PMA_HOST: ecommerce-mysql-container
+      PMA_HOST: demo-cart-mysql
       MYSQL_ROOT_PASSWORD: yourpassword
     ports:
-      - "8081:80"  # Custom port for phpMyAdmin
+      - "8062:80"  # Custom port for phpMyAdmin
     networks:
-      - ecommerce-network
-
-  ecommerce-mongodb:
-    image: mongo:latest
-    container_name: ecommerce-mongodb-container
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: adminpassword
-    ports:
-      - "27020:27017"  # Custom port mapping for MongoDB
-    volumes:
-      - ecommerce_mongo_data:/data/db
-    networks:
-      - ecommerce-network
-
-  ecommerce-mongo-express:
-    image: mongo-express:latest
-    container_name: ecommerce-mongo-express-container
-    environment:
-      ME_CONFIG_MONGODB_SERVER: ecommerce-mongodb-container
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: adminpassword
-      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
-    ports:
-      - "8082:8081"  # Custom port for Mongo Express
-    networks:
-      - ecommerce-network
+      - demo-cart
 
 volumes:
-  ecommerce_mysql_data:
-  ecommerce_mongo_data:
+  demo-cart-mysql_data:
 
 networks:
-  ecommerce-network:
+  demo-cart:
+    driver: bridge
