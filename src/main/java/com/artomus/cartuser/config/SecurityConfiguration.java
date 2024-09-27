@@ -20,10 +20,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(
-                        auth ->
-                                auth
-                                .anyRequest()
-                                .authenticated()
+                        auth -> auth
+                            .requestMatchers("/api/admin").hasRole("ADMIN")
+                            .requestMatchers("/api/users").hasAnyRole("USER", "ADMIN")
+                            .requestMatchers("/").permitAll()
                 )
                 .formLogin(Customizer.withDefaults());
 
