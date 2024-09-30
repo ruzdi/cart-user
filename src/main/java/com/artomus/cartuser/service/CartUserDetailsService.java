@@ -1,6 +1,6 @@
 package com.artomus.cartuser.service;
 
-import com.artomus.cartuser.entity.CartUserDetails;
+import com.artomus.cartuser.model.CartUserDetails;
 import com.artomus.cartuser.entity.User;
 import com.artomus.cartuser.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class CartUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public CartUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<User> user = userRepository.findByEmail(username);
 

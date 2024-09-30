@@ -1,16 +1,17 @@
-package com.artomus.cartuser.entity;
+package com.artomus.cartuser.model;
 
+import com.artomus.cartuser.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class CartUserDetails implements UserDetails {
 
+    private String firstName;
+    private String lastName;
     private String username;
     private String password;
     private Boolean active;
@@ -24,6 +25,8 @@ public class CartUserDetails implements UserDetails {
         this.username = user.getEmail();
         this.password = user.getPassword();
         this.active = user.getActive();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
         this.authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
                 .collect(Collectors.toList());
@@ -42,6 +45,14 @@ public class CartUserDetails implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override
@@ -63,4 +74,8 @@ public class CartUserDetails implements UserDetails {
     public boolean isEnabled() {
         return active;
     }
+
+
+
+
 }
