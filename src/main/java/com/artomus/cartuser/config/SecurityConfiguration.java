@@ -40,16 +40,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(
                         auth -> auth
                             .requestMatchers("/api/authenticate").permitAll()
-                            .requestMatchers("/api/admin").hasRole("ADMIN")
-                            .requestMatchers("/api/users").hasAnyRole("USER", "ADMIN")
-                            .requestMatchers("/").permitAll()
+                            .anyRequest() .authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));  // Stateless session management
-
-
-
-        // Add JWT filter before UsernamePasswordAuthenticationFilter
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // No session management
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)  // Add JWT filter
+                .httpBasic(httpBasic -> httpBasic.disable())  // Disable basic authentication
+                .formLogin(formLogin -> formLogin.disable());  // Disable form login
 
         return http.build();
     }
