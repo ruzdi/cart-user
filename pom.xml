@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.3</version>
+        <version>3.2.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.artomus</groupId>
@@ -15,8 +15,22 @@
     <description>cart-user</description>
 
     <properties>
-        <java.version>22</java.version> <!-- Updated to match your OpenJDK 22 version -->
+        <java.version>22</java.version> <!-- Matches your OpenJDK 22 -->
+        <spring-cloud.version>2023.0.0</spring-cloud.version> <!-- Spring Cloud version property -->
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version> <!-- Use the property here -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
     <dependencies>
         <!-- Spring Data JPA for persistence -->
@@ -91,12 +105,10 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-
-        
-<!--        <dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-<!--		</dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId> <!-- Example dependency -->
+        </dependency>
         
         
     </dependencies>
